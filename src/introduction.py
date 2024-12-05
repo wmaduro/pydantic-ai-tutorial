@@ -5,15 +5,14 @@ This module demonstrates how PydanticAI makes it easier to build
 production-grade LLM-powered systems with type safety and structured responses.
 """
 
-from typing import List, Dict, Optional
-
+from typing import Dict, List, Optional
 import nest_asyncio
 from pydantic import BaseModel, Field
-from pydantic_ai import Agent, RunContext, Tool, ModelRetry
+from pydantic_ai import Agent, ModelRetry, RunContext, Tool
 from pydantic_ai.models.openai import OpenAIModel
 
-
 from utils.markdown import to_markdown
+
 
 nest_asyncio.apply()
 
@@ -31,19 +30,19 @@ Key concepts:
 - Accessing response data, message history, and costs
 """
 
-basic_agent = Agent(
+agent1 = Agent(
     model=model,
     system_prompt="You are a helpful customer support agent. Be concise and friendly.",
 )
 
 # Example usage of basic agent
-response = basic_agent.run_sync("How can I track my order #12345?")
+response = agent1.run_sync("How can I track my order #12345?")
 print(response.data)
 print(response.all_messages())
 print(response.cost())
 
 
-response2 = basic_agent.run_sync(
+response2 = agent1.run_sync(
     user_prompt="What was my previous question?",
     message_history=response.new_messages(),
 )
@@ -70,7 +69,7 @@ class ResponseModel(BaseModel):
     sentiment: str = Field(description="Customer sentiment analysis")
 
 
-agent1 = Agent(
+agent2 = Agent(
     model=model,
     result_type=ResponseModel,
     system_prompt=(
@@ -79,11 +78,9 @@ agent1 = Agent(
     ),
 )
 
-try:
-    response = agent1.run_sync("How can I track my order #12345?")
-    print(response.data.model_dump_json(indent=2))
-except Exception as e:
-    print(f"Error: {e}")
+response = agent2.run_sync("How can I track my order #12345?")
+print(response.data.model_dump_json(indent=2))
+
 
 # --------------------------------------------------------------
 # 3. Agent with Structured Response & Dependencies
@@ -117,7 +114,7 @@ class CustomerDetails(BaseModel):
 
 
 # Agent with structured output and dependencies
-agent2 = Agent(
+agent5 = Agent(
     model=model,
     result_type=ResponseModel,
     deps_type=CustomerDetails,
@@ -131,7 +128,7 @@ agent2 = Agent(
 
 
 # Add dynamic system prompt based on dependencies
-@agent2.system_prompt
+@agent5.system_prompt
 async def add_customer_name(ctx: RunContext[CustomerDetails]) -> str:
     return f"Customer details: {to_markdown(ctx.deps)}"  # These depend in some way on context that isn't known until runtime
 
@@ -145,7 +142,7 @@ customer = CustomerDetails(
     ],
 )
 
-response = agent2.run_sync(user_prompt="What did I order?", deps=customer)
+response = agent5.run_sync(user_prompt="What did I order?", deps=customer)
 
 response.all_messages()
 print(response.data.model_dump_json(indent=2))
@@ -185,7 +182,7 @@ def get_shipping_info(ctx: RunContext[CustomerDetails]) -> str:
 
 
 # Agent with structured output and dependencies
-agent3 = Agent(
+agent5 = Agent(
     model=model,
     result_type=ResponseModel,
     deps_type=CustomerDetails,
@@ -200,12 +197,12 @@ agent3 = Agent(
 )
 
 
-@agent3.system_prompt
+@agent5.system_prompt
 async def add_customer_name(ctx: RunContext[CustomerDetails]) -> str:
     return f"Customer details: {to_markdown(ctx.deps)}"
 
 
-response = agent3.run_sync(
+response = agent5.run_sync(
     user_prompt="What's the status of my last order?", deps=customer
 )
 
@@ -250,7 +247,7 @@ customer = CustomerDetails(
 )
 
 # Agent with reflection and self-correction
-agent4 = Agent(
+agent5 = Agent(
     model=model,
     result_type=ResponseModel,
     deps_type=CustomerDetails,
@@ -264,7 +261,7 @@ agent4 = Agent(
 )
 
 
-@agent4.tool_plain()  # Add plain tool via decorator
+@agent5.tool_plain()  # Add plain tool via decorator
 def get_shipping_status(order_id: str) -> str:
     """Get the shipping status for a given order ID."""
     shipping_status = shipping_info_db.get(order_id)
@@ -278,7 +275,7 @@ def get_shipping_status(order_id: str) -> str:
 
 
 # Example usage
-response = agent4.run_sync(
+response = agent5.run_sync(
     user_prompt="What's the status of my last order 12345?", deps=customer
 )
 
