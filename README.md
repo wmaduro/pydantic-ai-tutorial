@@ -2,31 +2,31 @@
 
 This repository contains examples and explanations of how to use [PydanticAI](https://ai.pydantic.dev/) - a Python Agent Framework designed to make it easier to build production-grade applications with Generative AI.
 
-## About Me
+## 👋🏻 About Me
 
 Hi there! I’m Dave Ebbelaar, founder of Datalumina®, and I’m passionate about helping data professionals and developers like you succeed in the world of data science and AI. If you enjoy the tutorial, make sure to check out the links below for more resources to help you grow.
 
 At [Datalumina](https://www.datalumina.com/), we help individuals and businesses unlock the full potential of AI and data by turning complexity into capability. Whether you're learning Python, freelancing, or building cutting-edge AI apps, we provide the tools, guidance, and expertise to help you succeed.
 
-### Explore More Resources
+### 📚 Explore More Resources
 
 Whether you're a learner, a freelancer, or a business looking for AI expertise, we've got something for you:
 
 1. **Learning Python for AI and Data Science?**  
    Join our **free community, Data Alchemy**, where you’ll find resources, tutorials, and support:  
-   [Data Alchemy on Skool](https://www.skool.com/data-alchemy)
+   [▶︎ Data Alchemy on Skool](https://www.skool.com/data-alchemy)
 
 2. **Ready to start or scale your freelancing career?**  
    Learn how to land clients and grow your business with the **Data Freelancer program**:  
-   [Data Freelancer](https://www.datalumina.com/data-freelancer)
+   [▶︎ Data Freelancer](https://www.datalumina.com/data-freelancer)
 
 3. **Need expert help on your next project?**  
    Work with me and my team to solve your data and AI challenges:  
-   [Consulting Services](https://www.datalumina.com/solutions)
+   [▶︎ Consulting Services](https://www.datalumina.com/solutions)
 
 4. **Building AI-powered applications?**  
    Access the **GenAI Launchpad** to accelerate your AI app development:  
-   [GenAI Launchpad](https://launchpad.datalumina.com/)
+   [▶︎ GenAI Launchpad](https://launchpad.datalumina.com/)
 
 ## Introduction to PydanticAI
 
