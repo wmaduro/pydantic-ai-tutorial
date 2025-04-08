@@ -15,13 +15,19 @@ nest_asyncio.apply()
 def get_model():
     return OpenAIModel("gpt-4o")
 
-def get_model_ollama():
-    # _model_name = 'llama3.3:latest' #ok
-    # _model_name = 'qwen2.5:14b' #ok
-    # _model_name = 'llama3:latest'
-    # _model_name = 'mistral:7b'
-    _model_name = 'qwq:32b' #ok
-    # _model_name = 'gemma3:27b' 
-    return OpenAIModel(model_name=_model_name, 
-                       provider=OpenAIProvider(base_url='http://localhost:11434/v1')
-                       )
+class OllamaModel:
+    LLAMA3_3 = "llama3.3:latest" #ok
+    QWEN2_5_14b = "qwen2.5:14b" #ok
+    LLAMA3 = "llama3:latest"
+    MISTRAL = "mistral:7b"
+    QWQ_32b = "qwq:32b" #ok
+    GEMMA3_27b = "gemma3:27b"
+    
+    def __init__(self, model_name=QWQ_32b):
+        self.model_name = model_name
+    
+    def get_model(self):
+        return OpenAIModel(
+            model_name=self.model_name,
+            provider=OpenAIProvider(base_url='http://localhost:11434/v1')
+        )
