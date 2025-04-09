@@ -27,7 +27,7 @@ class ResponseModel(BaseModel):
     sentiment: str = Field(description="Customer sentiment analysis")
 
 def run_dependencies_agent():
-    model = OllamaModel(OllamaModel.QWQ_32b).get_model()
+    model = OllamaModel(OllamaModel.QWEN2_5_14b).get_model()
     
     # Agent with structured output and dependencies
     agent = Agent(
@@ -45,7 +45,9 @@ def run_dependencies_agent():
     # Add dynamic system prompt based on dependencies
     @agent.system_prompt
     async def add_customer_name(ctx: RunContext[CustomerDetails]) -> str:
-        return f"Customer details: {to_markdown(ctx.deps)}"
+        lixo = f"Customer details: {to_markdown(ctx.deps)}"
+        # print(f'=================== {lixo}')        
+        return lixo
 
     # Create a customer with order details
     customer = CustomerDetails(
@@ -76,7 +78,7 @@ def run_dependencies_agent():
     "show the names in uppercase" \
     "remove duplication from the list" \
     "show only the product names" \
-    "it they have compound names, show them as a single word separate by #" \
+    # "it they have compound names, show them as a single word separate by #" \
     , deps=customer)
 
     # print("\nAll messages:")
