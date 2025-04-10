@@ -77,9 +77,11 @@ def run_self_correction_agent():
         user_prompt="What's the status of my last order 12345?", deps=customer
     )
 
-    print("\nAll messages:")
-    print(response.all_messages())
-    print("\nStructured response data:")
+    print("\n-------------> All messages:")
+    lixo:list = response.all_messages()
+    for i in lixo:
+        print(f'\n{i}')    
+    print("\n-------------> Structured response data:")
     print(response.data.model_dump_json(indent=2))
 
 if __name__ == "__main__":
