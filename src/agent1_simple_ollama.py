@@ -8,11 +8,14 @@ Key concepts:
 - Accessing response data, message history, and costs
 """
 
-from setup import get_model_ollama
+from setup import OllamaModel
 from pydantic_ai import Agent
+from colorama import init, Fore
+
+init()
 
 def run_simple_agent():
-    model = get_model_ollama()
+    model = OllamaModel(OllamaModel.QWEN2_5_14b).get_model()
     
     # Create a basic agent with a system prompt
     agent1 = Agent(
@@ -32,7 +35,7 @@ def run_simple_agent():
     try:
         print(f'\nCost: {response.cost()}')
     except:
-        print("\nCost: Not available")
+        print(Fore.RED + "\nCost: Not available" + Fore.RESET)
         
     # Continuing the conversation with message history
     print("\nRunning follow-up query with message history...")
@@ -41,7 +44,7 @@ def run_simple_agent():
         message_history=response.new_messages(),
     )
     print("\nResponse data:")
-    print(response2.data)
+    print(Fore.LIGHTGREEN_EX + response2.data)
 
 if __name__ == "__main__":
     run_simple_agent()

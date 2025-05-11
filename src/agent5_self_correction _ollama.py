@@ -31,7 +31,7 @@ class ResponseModel(BaseModel):
     sentiment: str = Field(description="Customer sentiment analysis")
 
 def run_self_correction_agent():
-    model = OllamaModel(OllamaModel.QWQ_32b).get_model()
+    model = OllamaModel(OllamaModel.QWEN2_5_14b).get_model()
     
     # Simulated database of shipping information
     shipping_info_db: Dict[str, str] = {
